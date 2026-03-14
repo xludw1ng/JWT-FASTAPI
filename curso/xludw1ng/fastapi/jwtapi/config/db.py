@@ -6,9 +6,3 @@ engine = create_engine(settings.BASE_URL, echo=True, pool_recycle=10)
 SessionLocal = sessionmaker(autocommit = False, autoflush= False, bind=engine)
 Base = declarative_base()
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
