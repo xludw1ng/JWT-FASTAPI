@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from curso.xludw1ng.fastapi.jwtapi.routers import users
+from curso.xludw1ng.fastapi.jwtapi.routers import users, auth
 from curso.xludw1ng.fastapi.jwtapi.config.db import engine, Base
 import curso.xludw1ng.fastapi.jwtapi.entities.users
 
@@ -9,7 +9,7 @@ app = FastAPI()
 Base.metadata.create_all(bind = engine)
 
 app.include_router(users.router, prefix='/users', tags=['users'])
-
+app.include_router(auth.router, prefix='/oauth', tags=['oauth'])
 
 @app.get('/')
 def read_root():

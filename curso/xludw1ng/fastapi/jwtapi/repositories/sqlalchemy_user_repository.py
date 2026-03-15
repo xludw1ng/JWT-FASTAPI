@@ -18,7 +18,7 @@ class SQLAlchemyUserRepository(UserRepository):
         return list(self._db.scalars(stmt).all())
 
     def find_by_id(self, user_id: int) -> Optional[UserEntity]:
-        return self._db.get(UserEntity.id, user_id)
+        return self._db.get(UserEntity, user_id)
 
 
     def find_by_email(self, email: str) -> Optional[UserEntity]:

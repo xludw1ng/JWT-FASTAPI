@@ -6,6 +6,7 @@ from curso.xludw1ng.fastapi.jwtapi.entities.users import User as UserEntity
 from curso.xludw1ng.fastapi.jwtapi.repositories.user_repository import UserRepository
 from curso.xludw1ng.fastapi.jwtapi.schemas.user_dto import UserDto
 from curso.xludw1ng.fastapi.jwtapi.schemas.user_request import UserRequest
+from curso.xludw1ng.fastapi.jwtapi.security.passwords import hash_password
 from curso.xludw1ng.fastapi.jwtapi.services.user_service import UserService
 
 
@@ -33,7 +34,8 @@ class UserServiceImpl(UserService):
         if self._repo.find_by_email(user.email):
             raise ValueError('Email already registered')
 
-        user_entity = UserEntity(email=user.email, password=user.password)
+        password_hash = hash_password(user.password)
+        user_entity = UserEntity(email=user.email, password=password_hash)
         try:
             self._db.add(user_entity)
             self._db.commit()

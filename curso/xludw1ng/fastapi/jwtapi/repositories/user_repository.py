@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
 
+from curso.xludw1ng.fastapi.jwtapi.entities.users import User
+
 
 class UserRepository(ABC):
 
