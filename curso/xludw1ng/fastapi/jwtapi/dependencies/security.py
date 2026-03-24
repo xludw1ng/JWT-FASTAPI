@@ -7,10 +7,10 @@ from curso.xludw1ng.fastapi.jwtapi.dependencies.di import get_repository
 from curso.xludw1ng.fastapi.jwtapi.entities.users import User
 from curso.xludw1ng.fastapi.jwtapi.repositories.user_repository import UserRepository
 
-#LEE EL HEADER DE CADA PETICION
-oath2_scheme = OAuth2PasswordBearer(tokenUrl="/oauth/token/form")
+# LEE EL HEADER DE CADA PETICION
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/oauth/token/form")
 
-def get_current_user(repo: UserRepository = Depends(get_repository), token: str = Depends(oath2_scheme)) -> User:
+def get_current_user(repo: UserRepository = Depends(get_repository), token: str = Depends(oauth2_scheme)) -> User:
     try:
         payload = jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])
         user_id = int(payload.get("sub"))
