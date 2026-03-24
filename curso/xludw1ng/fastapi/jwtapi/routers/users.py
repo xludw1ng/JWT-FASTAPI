@@ -20,9 +20,9 @@ def list_users(service: UserService = Depends(get_service),
 @router.get('/{user_id}', response_model=UserDto)
 def get_user(user_id: int, service: UserService = Depends(get_service),
              current_user : User = Depends(get_current_user)):
-    user = service.find_by_id(user_id)
     if user_id != current_user.id:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='Forbidden')
+    user = service.find_by_id(user_id)
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
     return user
@@ -32,5 +32,7 @@ def create_user(user: UserRequest, service: UserService = Depends(get_service),
                 current_user : User = Depends(get_current_user)):
     try:
         return service.create(user)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
     except ValidationError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e.json())
